@@ -1,0 +1,70 @@
+{
+  "id": "ourapps-ae.seating",
+  "name": "Seating",
+  "kind": "component",
+  "status": "example",
+  "package": "ourapps-ae/seating",
+  "version": "0.3.0",
+  "ports": [
+    {
+      "id": "guest-identity",
+      "name": "Guest identity",
+      "direction": "input",
+      "kind": "interface",
+      "type": "ae/guest-identity",
+      "version": "1.0.0",
+      "required": true,
+      "cardinality": "one"
+    },
+    {
+      "id": "seating",
+      "name": "Seating",
+      "direction": "output",
+      "kind": "interface",
+      "type": "ae/seating",
+      "version": "1.0.0"
+    }
+  ],
+  "settings": [
+    {
+      "id": "minimumPlayers",
+      "name": "Minimumplayers",
+      "type": "number",
+      "required": false,
+      "secret": false,
+      "default": 2
+    },
+    {
+      "id": "maximumPlayers",
+      "name": "Maximumplayers",
+      "type": "number",
+      "required": false,
+      "secret": false,
+      "default": 9
+    },
+    {
+      "id": "seating",
+      "name": "Seating",
+      "type": "string",
+      "required": false,
+      "secret": false,
+      "default": "random"
+    },
+    {
+      "id": "returnToStack",
+      "name": "Returntostack",
+      "type": "boolean",
+      "required": false,
+      "secret": false,
+      "default": true
+    },
+    {
+      "id": "hostRemovesPeople",
+      "name": "Hostremovespeople",
+      "type": "boolean",
+      "required": false,
+      "secret": false,
+      "default": false
+    }
+  ]
+}

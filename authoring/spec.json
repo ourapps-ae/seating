@@ -1,0 +1,179 @@
+{
+  "name": "seating",
+  "version": "0.3.0",
+  "title": "Seating",
+  "description": "Seats for a table: random or ordered seating, joining under a checked name, leaving, returning to an existing stack, removing a player and the host's controls, for people and computer players.",
+  "facilities": [
+    {
+      "id": "seats",
+      "description": "Join, leave, lowest free seat, full-table and minimum checks"
+    },
+    {
+      "id": "seat-assignment",
+      "description": "Random or ordered seat numbers fixed when a game starts"
+    },
+    {
+      "id": "return-to-stack",
+      "description": "A person who leaves a running game may return to the same seat and stack, or not"
+    },
+    {
+      "id": "host-controls",
+      "description": "Host, who may remove whom, who may start, who may add a computer"
+    },
+    {
+      "id": "seat-rows",
+      "description": "Lobby seat list rows for web, Apple and Android clients"
+    }
+  ],
+  "provides": [
+    {
+      "id": "seating",
+      "type": "ae/seating",
+      "version": "1.0.0",
+      "path": "interfaces/seating.json"
+    }
+  ],
+  "requires": [
+    {
+      "id": "guest-identity",
+      "type": "ae/guest-identity",
+      "version": "1.0.0",
+      "path": "interfaces/required/guest-identity.json"
+    }
+  ],
+  "collect": [
+    {
+      "id": "minimumPlayers",
+      "type": "integer",
+      "grammar": "integer",
+      "required": false,
+      "secret": false,
+      "default": 2
+    },
+    {
+      "id": "maximumPlayers",
+      "type": "integer",
+      "grammar": "integer",
+      "required": false,
+      "secret": false,
+      "default": 9
+    },
+    {
+      "id": "seating",
+      "type": "string",
+      "grammar": "identifier",
+      "required": false,
+      "secret": false,
+      "default": "random"
+    },
+    {
+      "id": "returnToStack",
+      "type": "boolean",
+      "grammar": "boolean",
+      "required": false,
+      "secret": false,
+      "default": true
+    },
+    {
+      "id": "hostRemovesPeople",
+      "type": "boolean",
+      "grammar": "boolean",
+      "required": false,
+      "secret": false,
+      "default": false
+    }
+  ],
+  "suites": [
+    {
+      "id": "web",
+      "argv": [
+        "node",
+        "--test",
+        "tests/web.test.ts"
+      ],
+      "tools": {
+        "node": "26.5.0"
+      },
+      "fixtures": [
+        "tests/fixtures/names.json",
+        "examples/consumer.ts"
+      ]
+    },
+    {
+      "id": "apple",
+      "argv": [
+        "python3",
+        "tests/native.py",
+        "apple"
+      ],
+      "tools": {
+        "python3": "3.12.8",
+        "swiftc": "6.4.2"
+      },
+      "fixtures": [
+        "tests/apple/main.swift"
+      ],
+      "scope": "platform"
+    },
+    {
+      "id": "android",
+      "argv": [
+        "python3",
+        "tests/native.py",
+        "android"
+      ],
+      "tools": {
+        "python3": "3.12.8",
+        "kotlinc": "2.2.0",
+        "java": "26.0.1"
+      },
+      "fixtures": [
+        "tests/android/Main.kt"
+      ],
+      "scope": "platform"
+    }
+  ],
+  "tools": {
+    "node": "26.5.0",
+    "python3": "3.12.8",
+    "swiftc": "6.4.2",
+    "kotlinc": "2.2.0",
+    "java": "26.0.1"
+  },
+  "platforms": [
+    "server",
+    "web",
+    "apple",
+    "android"
+  ],
+  "keepsData": true,
+  "text": {
+    "purpose": "`seating` decides who sits where. It holds the seat list of a table (people and computer players), joins a person under a name the guest-identity rule accepts, gives the lowest free seat, refuses a full table or a taken name, lets people leave, lets a person who leaves a running game return to the same seat and stack, removes players, tells who may start the game or add a computer, and fixes seat numbers when a game starts (shuffled, or in the order people sat). It knows nothing about the game played at the table.",
+    "userInputs": "Settings (all optional): `minimumPlayers` (default 2), `maximumPlayers` (default 9, also the number of seats round the table), `seating` (`random` or `order`, default `random`), `returnToStack` (default true) and `hostRemovesPeople` (default false: only computer players can be removed). They map to the house-rules file entries `players.minimum`, `players.maximum`, `players.seating` and `players.return_to_existing_stack_allowed`.",
+    "integration": "Build it once with `createSeating(settings, identity)` from `implementation/server/seating.ts`; `identity` is guest-identity's `createIdentityApi(settings)`, an object with `validName(name)` that has `nameMinLength` and `nameMaxLength` bound. Every operation takes a state and returns a new one. The turn engine keeps the seat state inside the game state and calls `join`, `leave`, `leaveRunning`, `mayReturn`, `remove`, `canStart`, `canAddComputer`, `assign` and `retain`; computer-players calls `join`, `find`, `findByName`, `isFull` and `canAddComputer`; tournament calls `list`, `find` and `people`. Clients use `seatRows` (web `implementation/web/lobby.ts`, Apple `SeatRows.swift`, Android `SeatRows.kt`) to turn a view's players into lobby rows; screens, icons and language text stay with the recipe.",
+    "infrastructure": "No service is deployed. The seat state is part of the game state the room stores; nothing else is kept. No accounts or keys.",
+    "verification": "`node --test tests/web.test.ts` checks settings, joining, names checked by the identity's `validName`, full tables, random and ordered seating (every permutation reachable), returning to a stack, removal rules, start and add-computer checks, retain/compact/ring helpers, seat rows, the runnable consumer and export/import with checksums. `python3 tests/native.py apple` compiles and runs the Swift seat-row checks. `python3 tests/native.py android` is written for Kotlin 2.2.0 but was not run on the extraction machine (no kotlinc). `authoring/integration.test.ts` (not packaged) runs seating over the real guest-identity sibling.",
+    "scenarios": "Three people and a computer sit in a nine-seat room: numbers 1 to 4 are given in join order, then fixed at random when the host starts. A person leaves a running game and later returns to the same seat and stack; with `returnToStack` off the way back is shut. The host removes a computer player; with `hostRemovesPeople` on, a person too.",
+    "updates": "Patch updates replace files; the seat state shape is `interfaces/seating-state.schema.json` version 1.0.0 and `migration.json` describes export and import of seat assignments as newline-delimited JSON with a checksum per record. Removal deletes the owned sources and the application's imports; the application's stored seat assignments stay in the room's own storage."
+  },
+  "agentInstructions": "Select `ourapps-ae/seating` once per recipe. Map the recipe's players question to `minimumPlayers` and `maximumPlayers`. Connect the `guest-identity` requirement to the guest-identity component, then connect the provided `seating` to turn-engine (as `seating`), computer-players (as `seating`) and tournament (as `seating`). Seating is `random` unless the house rules say `order`.",
+  "developerInstructions": "Nothing to supply: no accounts or keys. Pass the same name rule your clients use (guest-identity). If you keep a house-rules file, read the four `players` values into the settings. Use `seatRows` in your lobby screen and keep the text and icons in your own language files. To check it works, run the commands below.",
+  "suitability": {
+    "format": 1,
+    "jobs": [
+      "seating"
+    ],
+    "profiles": [
+      {
+        "id": "any",
+        "load": {},
+        "cost": "none",
+        "regions": [
+          "any"
+        ],
+        "compliance": []
+      }
+    ],
+    "notes": "Pure library; the seat list is part of the room's own stored state, a few hundred bytes."
+  }
+}

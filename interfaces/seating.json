@@ -1,0 +1,202 @@
+{
+  "id": "seating",
+  "type": "ae/seating",
+  "version": "1.0.0",
+  "notes": "Pure functions over a SeatingState. The component is built once from settings and an identity (createSeating(settings, identity)); every operation then takes a state and returns a new one, never changing its input. Codes are strings: badName, roomFull, notAllowed, badTarget, notEnoughPlayers.",
+  "types": {
+    "Seat": "{id:string,name:string,seat:number,computer:boolean}",
+    "SeatingState": "{seats:Seat[],hostId:string|null,left:string[]}",
+    "Outcome": "{ok:true,state:SeatingState}|{ok:false,code:string}"
+  },
+  "settings": {
+    "minimumPlayers": "integer, default 2",
+    "maximumPlayers": "integer, default 9; also the size of the ring used by nextOccupied and distance",
+    "seating": "random|order, default random",
+    "returnToStack": "boolean, default true",
+    "hostRemovesPeople": "boolean, default false"
+  },
+  "operations": {
+    "create": {
+      "arguments": [],
+      "returns": "SeatingState"
+    },
+    "validName": {
+      "arguments": [
+        "name:unknown"
+      ],
+      "returns": "boolean (the identity rule: the validName of the identity given to createSeating)"
+    },
+    "list": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "Seat[] in seat order"
+    },
+    "find": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string"
+      ],
+      "returns": "Seat|undefined"
+    },
+    "findByName": {
+      "arguments": [
+        "state:SeatingState",
+        "name:string"
+      ],
+      "returns": "Seat|undefined"
+    },
+    "count": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "number"
+    },
+    "people": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "Seat[] (computer false)"
+    },
+    "computers": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "Seat[] (computer true)"
+    },
+    "isFull": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "boolean"
+    },
+    "isEnough": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "boolean (at least minimumPlayers)"
+    },
+    "join": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string",
+        "name:string",
+        "options:{computer?:boolean}|undefined"
+      ],
+      "returns": "Outcome (badName for an invalid or taken name or id, roomFull)"
+    },
+    "setHost": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string|null"
+      ],
+      "returns": "SeatingState"
+    },
+    "hostOf": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "string|null"
+    },
+    "minimumPlayers": {
+      "arguments": [],
+      "returns": "number (the minimumPlayers setting)"
+    },
+    "maximumPlayers": {
+      "arguments": [],
+      "returns": "number (the maximumPlayers setting)"
+    },
+    "isHost": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string"
+      ],
+      "returns": "boolean"
+    },
+    "leave": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string"
+      ],
+      "returns": "SeatingState (seat given up; clears host if it was the host)"
+    },
+    "leaveRunning": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string"
+      ],
+      "returns": "SeatingState (seat kept; without returnToStack the id is recorded in left)"
+    },
+    "mayReturn": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string"
+      ],
+      "returns": "boolean"
+    },
+    "returned": {
+      "arguments": [
+        "state:SeatingState",
+        "id:string"
+      ],
+      "returns": "SeatingState (id removed from left)"
+    },
+    "remove": {
+      "arguments": [
+        "state:SeatingState",
+        "byId:string",
+        "targetId:string"
+      ],
+      "returns": "Outcome (notAllowed when the remover is absent or a computer; badTarget when the target is absent or a person the remover may not remove)"
+    },
+    "canStart": {
+      "arguments": [
+        "state:SeatingState",
+        "byId:string"
+      ],
+      "returns": "Outcome (notAllowed, notEnoughPlayers)"
+    },
+    "canAddComputer": {
+      "arguments": [
+        "state:SeatingState",
+        "byId:string"
+      ],
+      "returns": "Outcome (notAllowed, roomFull)"
+    },
+    "assign": {
+      "arguments": [
+        "state:SeatingState",
+        "rng:()=>number"
+      ],
+      "returns": "SeatingState (seat numbers 0..n-1 fixed: shuffled for random, join order for order)"
+    },
+    "compact": {
+      "arguments": [
+        "state:SeatingState"
+      ],
+      "returns": "SeatingState (gaps closed)"
+    },
+    "retain": {
+      "arguments": [
+        "state:SeatingState",
+        "keep:(seat:Seat)=>boolean"
+      ],
+      "returns": "SeatingState (only the kept seats, renumbered 0..n-1 in old order; host and left cleared: a new lobby)"
+    },
+    "nextOccupied": {
+      "arguments": [
+        "state:SeatingState",
+        "fromSeat:number",
+        "among:string[]|undefined"
+      ],
+      "returns": "number (next occupied seat clockwise; fromSeat when none)"
+    },
+    "distance": {
+      "arguments": [
+        "from:number",
+        "to:number"
+      ],
+      "returns": "number (clockwise steps 1..maximumPlayers; the same seat is a full circle)"
+    }
+  }
+}

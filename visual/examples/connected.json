@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "id": "seating-connected",
+  "title": "Seating: connected consumer",
+  "status": "example",
+  "view": "component",
+  "focus": "component",
+  "definitions": [
+    {
+      "id": "ourapps-ae.seating",
+      "name": "Seating",
+      "kind": "component",
+      "status": "example",
+      "package": "ourapps-ae/seating",
+      "version": "0.3.0",
+      "ports": [
+        {
+          "id": "guest-identity",
+          "name": "Guest identity",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/guest-identity",
+          "version": "1.0.0",
+          "required": true,
+          "cardinality": "one"
+        },
+        {
+          "id": "seating",
+          "name": "Seating",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/seating",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": [
+        {
+          "id": "minimumPlayers",
+          "name": "Minimumplayers",
+          "type": "number",
+          "required": false,
+          "secret": false,
+          "default": 2
+        },
+        {
+          "id": "maximumPlayers",
+          "name": "Maximumplayers",
+          "type": "number",
+          "required": false,
+          "secret": false,
+          "default": 9
+        },
+        {
+          "id": "seating",
+          "name": "Seating",
+          "type": "string",
+          "required": false,
+          "secret": false,
+          "default": "random"
+        },
+        {
+          "id": "returnToStack",
+          "name": "Returntostack",
+          "type": "boolean",
+          "required": false,
+          "secret": false,
+          "default": true
+        },
+        {
+          "id": "hostRemovesPeople",
+          "name": "Hostremovespeople",
+          "type": "boolean",
+          "required": false,
+          "secret": false,
+          "default": false
+        }
+      ]
+    },
+    {
+      "id": "consumer",
+      "name": "Example application consumer",
+      "kind": "application",
+      "status": "example",
+      "revision": "0.1.0",
+      "ports": [
+        {
+          "id": "seating",
+          "name": "Seating",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/seating",
+          "version": "1.0.0",
+          "required": true,
+          "cardinality": "one"
+        },
+        {
+          "id": "guest-identity",
+          "name": "Guest identity",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/guest-identity",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": []
+    }
+  ],
+  "instances": [
+    {
+      "id": "component",
+      "name": "Seating",
+      "definition": "ourapps-ae.seating",
+      "configuration": {}
+    },
+    {
+      "id": "consumer",
+      "name": "Example consumer",
+      "definition": "consumer",
+      "configuration": {}
+    }
+  ],
+  "connections": [
+    {
+      "source": {
+        "instance": "component",
+        "port": "seating"
+      },
+      "target": {
+        "instance": "consumer",
+        "port": "seating"
+      }
+    },
+    {
+      "source": {
+        "instance": "consumer",
+        "port": "guest-identity"
+      },
+      "target": {
+        "instance": "component",
+        "port": "guest-identity"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ae/seating-state",
+  "type": "object",
+  "required": ["seats", "hostId", "left"],
+  "additionalProperties": false,
+  "properties": {
+    "seats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "seat", "computer"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "seat": { "type": "integer", "minimum": 0 },
+          "computer": { "type": "boolean" }
+        }
+      }
+    },
+    "hostId": { "type": ["string", "null"] },
+    "left": { "type": "array", "items": { "type": "string" } }
+  }
+}

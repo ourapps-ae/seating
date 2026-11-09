@@ -1,0 +1,16 @@
+{
+  "format": 1,
+  "stores": [
+    { "id": "seat-assignments", "schema": { "name": "ae/seating-state", "version": "1.0.0", "file": "interfaces/seating-state.schema.json" } }
+  ],
+  "export": [
+    { "format": "ndjson", "portable": true, "operation": "exportAll", "description": "One line per seat, one for the host, one per person who left a running game; each line carries a sha256 of its content." }
+  ],
+  "import": [
+    { "format": "ndjson", "portable": true, "operation": "importAll" }
+  ],
+  "steps": [],
+  "verification": { "counts": true, "checksums": "sha256 per record", "sampleReadBack": 20, "endToEnd": "tests/web.test.ts" },
+  "limits": { "maxMegabytes": 1, "requiresStop": false, "cannotPreserve": ["seat numbers when the importing table has a smaller maximumPlayers"] },
+  "retention": { "afterRemovalDays": 0 }
+}
