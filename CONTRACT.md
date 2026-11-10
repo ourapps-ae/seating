@@ -24,13 +24,16 @@ Settings (all optional): `minimumPlayers` (default 2), `maximumPlayers` (default
 - `implementation/web/lobby.ts` -> `components/seating/web/lobby.ts`
 
 Dependencies: none.
-`tools.lock.json` pins verification tools: node 26.5.0, python3 3.12.8, swiftc 6.4.2, kotlinc 2.2.0, java 26.0.1. Licence wording remains deferred.
+`tools.lock.json` pins verification tools: node 26.5.0, python3 3.12.8, swiftc 6.4.2, kotlinc 2.2.0, java 26.0.1. Licence: `Apache-2.0` (`LICENCE`, `NOTICE`).
 
 ## Provided interfaces
-- `interfaces/seating.json` defines `seating` (ae/seating) version 1.0.0.
+- `interfaces/seating.json` defines `seating` (ae/seating) version 1.0.0: an OpenRPC 1.3.2 document, one method per function (a member of a created object is `<Type>.<member>`), with parameter, result and data types as JSON Schema 2020-12 (`components.schemas`) and thrown errors under `errors`.
+- `interfaces/seating-state.schema.json` (ae/seating-state 1.0.0) is a JSON Schema 2020-12 document of the stored seat state.
 
 ## Required interfaces
 - `guest-identity` (ae/guest-identity) version 1.0.0, supplied by the recipe or application.
+
+Each `interfaces/required-<id>.json` is a byte copy of the providing component's document.
 
 ## Integration
 Build it once with `createSeating(settings, identity)` from `implementation/server/seating.ts`; `identity` is guest-identity's `createIdentityApi(settings)`, an object with `validName(name)` that has `nameMinLength` and `nameMaxLength` bound. Every operation takes a state and returns a new one. The turn engine keeps the seat state inside the game state and calls `join`, `leave`, `leaveRunning`, `mayReturn`, `remove`, `canStart`, `canAddComputer`, `assign` and `retain`; computer-players calls `join`, `find`, `findByName`, `isFull` and `canAddComputer`; tournament calls `list`, `find` and `people`. Clients use `seatRows` (web `implementation/web/lobby.ts`, Apple `SeatRows.swift`, Android `SeatRows.kt`) to turn a view's players into lobby rows; screens, icons and language text stay with the recipe.

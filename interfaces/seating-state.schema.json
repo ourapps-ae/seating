@@ -1,25 +1,57 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ae/seating-state",
+  "x-version": "1.0.0",
+  "description": "The seat state a seating component keeps (SeatingState of ae/seating): seats, the host and the ids that left a running game without the right to return.",
   "type": "object",
-  "required": ["seats", "hostId", "left"],
+  "required": [
+    "seats",
+    "hostId",
+    "left"
+  ],
   "additionalProperties": false,
   "properties": {
     "seats": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name", "seat", "computer"],
+        "required": [
+          "id",
+          "name",
+          "seat",
+          "computer"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "minLength": 1 },
-          "name": { "type": "string", "minLength": 1 },
-          "seat": { "type": "integer", "minimum": 0 },
-          "computer": { "type": "boolean" }
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "seat": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "computer": {
+            "type": "boolean"
+          }
         }
       }
     },
-    "hostId": { "type": ["string", "null"] },
-    "left": { "type": "array", "items": { "type": "string" } }
+    "hostId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "left": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 }
