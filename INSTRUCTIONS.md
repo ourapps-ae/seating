@@ -3,7 +3,7 @@
 ## For the agent
 Select `ourapps-ae/seating` once per recipe. Map the recipe's players question to `minimumPlayers` and `maximumPlayers`. Connect the `guest-identity` requirement to the guest-identity component, then connect the provided `seating` to turn-engine (as `seating`), computer-players (as `seating`) and tournament (as `seating`). Seating is `random` unless the house rules say `order`.
 
-- Select package `ourapps-ae/seating` version `0.4.1`.
+- Select package `ourapps-ae/seating` version `0.4.2`.
 - Settings to configure:
   - `minimumPlayers` (integer; optional; default `2`)
   - `maximumPlayers` (integer; optional; default `9`)
