@@ -1,6 +1,6 @@
 {
   "name": "seating",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "title": "Seating",
   "description": "Seats for a table: random or ordered seating, joining under a checked name, leaving, returning to an existing stack, removing a player and the host's controls, for people and computer players.",
   "facilities": [
