@@ -1,6 +1,6 @@
 # Source mapping
 
-Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018`. Extraction source: `OurPoker/recipe/` (read-only).
+Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018`. Extraction source: the `recipe/` folder of `ourapps-ae/OurPoker`; paths below are relative to it.
 
 - `implementation/server/seating.ts` <- `server/src/engine.ts`:
   - `join` 208-221 and `freshPlayer` 223-249 (lowest free seat, name check, full table, taken name): `join`, `find`, `findByName`, `isFull`; the player record's stack, hand and presence fields were left behind (they belong to tournament, the game and presence).
