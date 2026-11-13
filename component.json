@@ -13,6 +13,12 @@
       "template": false
     },
     {
+      "destination": "components/seating/server/index.ts",
+      "executable": false,
+      "source": "implementation/server/index.ts",
+      "template": false
+    },
+    {
       "destination": "components/seating/server/migrate.ts",
       "executable": false,
       "source": "implementation/server/migrate.ts",
@@ -22,6 +28,12 @@
       "destination": "components/seating/server/seating.ts",
       "executable": false,
       "source": "implementation/server/seating.ts",
+      "template": false
+    },
+    {
+      "destination": "components/seating/web/index.ts",
+      "executable": false,
+      "source": "implementation/web/index.ts",
       "template": false
     },
     {
@@ -37,8 +49,10 @@
     "writes": [
       "components/seating/android/src/main/java/ae/seating/SeatRows.kt",
       "components/seating/apple/Sources/SeatRows.swift",
+      "components/seating/server/index.ts",
       "components/seating/server/migrate.ts",
       "components/seating/server/seating.ts",
+      "components/seating/web/index.ts",
       "components/seating/web/lobby.ts"
     ]
   },
@@ -156,11 +170,19 @@
     },
     {
       "executable": false,
+      "path": "implementation/server/index.ts"
+    },
+    {
+      "executable": false,
       "path": "implementation/server/migrate.ts"
     },
     {
       "executable": false,
       "path": "implementation/server/seating.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/web/index.ts"
     },
     {
       "executable": false,
