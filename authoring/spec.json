@@ -1,6 +1,6 @@
 {
   "name": "seating",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "title": "Seating",
   "description": "Seats for a table: random or ordered seating, joining under a checked name, leaving, returning to an existing stack, removing a player and the host's controls, for people and computer players.",
   "facilities": [
@@ -141,10 +141,10 @@
     "java": "26.0.1"
   },
   "platforms": [
-    "server",
-    "web",
+    "android",
     "apple",
-    "android"
+    "server",
+    "web"
   ],
   "keepsData": true,
   "text": {
@@ -175,5 +175,166 @@
       }
     ],
     "notes": "Pure library; the seat list is part of the room's own stored state, a few hundred bytes."
+  },
+  "classes": [
+    {
+      "reference": {
+        "name": "ourapps-ae/seating-class",
+        "version": "1.0.0",
+        "digest": "0ebf98e6af664c50fdc2bb322017ed9422bd4be800f8019173311834d06b859a"
+      },
+      "descriptor": {
+        "format": 1,
+        "name": "ourapps-ae/seating-class",
+        "version": "1.0.0",
+        "provides": [
+          {
+            "type": "ae/seating",
+            "version": "1.0.0",
+            "path": "classes/seating-class/seating.json",
+            "modules": {
+              "web": [
+                "web/index.ts"
+              ],
+              "server": [
+                "server/index.ts"
+              ],
+              "android": [
+                "android/src/main/java"
+              ],
+              "ios": [
+                "apple/Sources"
+              ],
+              "macos": [
+                "apple/Sources"
+              ],
+              "tvos": [
+                "apple/Sources"
+              ],
+              "windows": [
+                "web/index.ts"
+              ]
+            }
+          }
+        ],
+        "requires": [
+          {
+            "type": "ae/guest-identity",
+            "version": "1.0.0"
+          }
+        ],
+        "settings": {
+          "type": "object",
+          "properties": {
+            "hostRemovesPeople": {
+              "type": "boolean"
+            },
+            "maximumPlayers": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "hostRemovesPeople",
+            "maximumPlayers"
+          ],
+          "additionalProperties": false
+        },
+        "inventory": [
+          {
+            "path": "classes/seating-class/check.mjs",
+            "digest": "8b7de39ac5e9213ccbafb6792d0614fb222c2b4b5358407c1c21e0227222d5c6"
+          },
+          {
+            "path": "classes/seating-class/runtime.mjs",
+            "digest": "7440f3891614c423f74668cb5a2445fea58bbfa4d7c740c8e8a855d1d9300d43"
+          },
+          {
+            "path": "classes/seating-class/seating.json",
+            "digest": "69bcab6877714760a79905b5884ced37b1bc48b6abf71b16b18e5f14d80eba31"
+          }
+        ],
+        "verification": [
+          {
+            "id": "shared",
+            "root": "package",
+            "argv": [
+              "node",
+              "classes/seating-class/check.mjs"
+            ],
+            "cwd": ".",
+            "prepare": [],
+            "tools": {
+              "node": "26.5"
+            },
+            "fixtures": [
+              "classes/seating-class/check.mjs"
+            ],
+            "locks": [],
+            "network": false,
+            "timeoutSeconds": 60,
+            "expectedExit": 0,
+            "scope": "required-local",
+            "requirements": []
+          }
+        ]
+      }
+    }
+  ],
+  "implements": [
+    {
+      "name": "ourapps-ae/seating-class",
+      "version": "1.0.0",
+      "digest": "0ebf98e6af664c50fdc2bb322017ed9422bd4be800f8019173311834d06b859a"
+    }
+  ],
+  "upstream": [],
+  "compatibility": {
+    "runtimes": {
+      "node": ">=26.5.0 <27.0.0",
+      "swift": "=6.4.2",
+      "ios": ">=17.0.0",
+      "macos": ">=14.0.0",
+      "tvos": ">=17.0.0",
+      "kotlin": "=2.3.20",
+      "java": ">=17.0.0 <27.0.0",
+      "android": ">=8.0.0"
+    },
+    "frameworks": {},
+    "dependencies": [],
+    "styles": {
+      "scope": "none",
+      "namespaces": [],
+      "conflicts": []
+    }
+  },
+  "maintenance": {
+    "owners": [
+      "Level N Ltd"
+    ],
+    "contact": "https://github.com/ourapps-ae/seating/issues",
+    "repository": "https://github.com/ourapps-ae/seating",
+    "updates": {
+      "source": "https://github.com/ourapps-ae/seating/releases",
+      "strategy": "manual"
+    }
+  },
+  "supportedPlatforms": [
+    "android",
+    "ios",
+    "macos",
+    "server",
+    "tvos",
+    "web",
+    "windows"
+  ],
+  "licence": "Apache-2.0",
+  "licenceFile": "LICENCE",
+  "noticeFile": "NOTICE",
+  "templates": [],
+  "modules": {
+    "web": "web/index.ts",
+    "server": "server/index.ts",
+    "android": "android/src/main/java",
+    "apple": "apple/Sources"
   }
 }

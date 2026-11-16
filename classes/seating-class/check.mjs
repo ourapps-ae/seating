@@ -1,0 +1,14 @@
+import { assert, load } from './runtime.mjs';
+const m = await load('server/index.ts');
+const seats = m.createSeating({ maximumPlayers: 2 }, { validName: name => typeof name === 'string' && name.length > 0 });
+const empty = seats.create();
+const first = seats.join(empty, 'a', 'Ada').state;
+assert.equal(seats.count(empty), 0);
+assert.equal(seats.canStart(first, 'a').code, 'notEnoughPlayers');
+assert.equal(seats.join(first, 'b', 'Ada').code, 'badName');
+const full = seats.join(first, 'b', 'Bob').state;
+assert.equal(seats.canStart(full, 'a').ok, true);
+assert.equal(seats.join(full, 'c', 'Cy').code, 'roomFull');
+assert.equal(seats.count(seats.leave(full, 'a')), 1);
+assert.deepEqual(m.importAll(m.exportAll(full)), full);
+assert.equal(seats.count(full), 2);
