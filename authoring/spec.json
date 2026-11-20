@@ -1,6 +1,6 @@
 {
   "name": "seating",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "title": "Seating",
   "description": "Seats for a table: random or ordered seating, joining under a checked name, leaving, returning to an existing stack, removing a player and the host's controls, for people and computer players.",
   "facilities": [
@@ -180,13 +180,17 @@
     {
       "reference": {
         "name": "ourapps-ae/seating-class",
-        "version": "1.0.0",
-        "digest": "0ebf98e6af664c50fdc2bb322017ed9422bd4be800f8019173311834d06b859a"
+        "version": "1.1.0",
+        "digest": "61df5d165b4f17d637bdd45beacf39f25b6d2a64f043ddecdc66d0ea8776e7bb"
       },
       "descriptor": {
-        "format": 1,
+        "format": 2,
         "name": "ourapps-ae/seating-class",
-        "version": "1.0.0",
+        "version": "1.1.0",
+        "title": "Seating",
+        "summary": "Seats at a table: taking, leaving and starting when enough are taken",
+        "category": "games/tables-and-seating",
+        "presentation": "none",
         "provides": [
           {
             "type": "ae/seating",
@@ -283,8 +287,8 @@
   "implements": [
     {
       "name": "ourapps-ae/seating-class",
-      "version": "1.0.0",
-      "digest": "0ebf98e6af664c50fdc2bb322017ed9422bd4be800f8019173311834d06b859a"
+      "version": "1.1.0",
+      "digest": "61df5d165b4f17d637bdd45beacf39f25b6d2a64f043ddecdc66d0ea8776e7bb"
     }
   ],
   "upstream": [],
@@ -295,7 +299,7 @@
       "ios": ">=17.0.0",
       "macos": ">=14.0.0",
       "tvos": ">=17.0.0",
-      "kotlin": "=2.3.20",
+      "kotlin": "=2.4.21",
       "java": ">=17.0.0 <27.0.0",
       "android": ">=8.0.0"
     },
@@ -570,5 +574,11 @@
         "manual": "Without the package manager, install Node 26 from nodejs.org (the installer, or the zip or tar archive with its folder put first on PATH); on Linux also from the NodeSource repository."
       }
     ]
-  }
+  },
+  "release": {
+    "channel": "features",
+    "fixes": []
+  },
+  "images": [],
+  "vulnerabilityWaivers": []
 }
